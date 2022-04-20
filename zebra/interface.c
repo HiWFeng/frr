@@ -3703,6 +3703,11 @@ static int ip_address_install(struct vty *vty, struct interface *ifp,
 			if_refresh(ifp);
 		}
 
+        if (label && strcmp(label,"no_ipcheck") == 0){
+            SET_FLAG(ifc->conf,ZEBRA_IFC_REAL);
+	        return CMD_SUCCESS;
+        }
+
 		dplane_res = dplane_intf_addr_set(ifp, ifc);
 		if (dplane_res == ZEBRA_DPLANE_REQUEST_FAILURE) {
 			vty_out(vty, "%% Can't set interface IP address: %s.\n",
